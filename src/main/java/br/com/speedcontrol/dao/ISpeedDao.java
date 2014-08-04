@@ -9,5 +9,7 @@ public interface ISpeedDao {
 	
 	public void registerSpeed(Timestamp time, float speed, List<String> tags);
 	public List<SpeedRadar> retrieveSpeeds();
+	public List<SpeedRadar> retrieveFinedSpeeds();
+	public List<SpeedRadar> retrieveNotFinedSpeeds();
 
 }

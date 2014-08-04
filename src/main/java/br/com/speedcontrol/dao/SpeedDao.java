@@ -68,4 +68,44 @@ public class SpeedDao implements ISpeedDao {
 		return speedList;
 	}
 
+	public List<SpeedRadar> retrieveFinedSpeeds() {
+		ResultSet results = Configuration.getSession().execute("SELECT speed, time, tags FROM speedcontrol.speed;");
+
+		List<SpeedRadar> speedList = new ArrayList<SpeedRadar>();
+		for (Row row : results) {
+
+			if (!(row.getSet("tags", String.class).contains("not fined"))) {
+				System.out.println("tags "+row.getSet("tags", String.class));
+	
+				SpeedRadar speedRadar = new SpeedRadar();
+				speedRadar.setSpeed(row.getFloat("speed"));
+				speedRadar.setTime(new Timestamp(row.getDate("time").getTime()));
+				
+				speedList.add(speedRadar);
+			}
+		}
+		
+		return speedList;
+	}
+
+	public List<SpeedRadar> retrieveNotFinedSpeeds() {
+		ResultSet results = Configuration.getSession().execute("SELECT speed, time, tags FROM speedcontrol.speed;");
+
+		List<SpeedRadar> speedList = new ArrayList<SpeedRadar>();
+		for (Row row : results) {
+
+			if (row.getSet("tags", String.class).contains("not fined")) {
+				System.out.println("tags "+row.getSet("tags", String.class));
+	
+				SpeedRadar speedRadar = new SpeedRadar();
+				speedRadar.setSpeed(row.getFloat("speed"));
+				speedRadar.setTime(new Timestamp(row.getDate("time").getTime()));
+				
+				speedList.add(speedRadar);
+			}
+		}
+		
+		return speedList;
+	}
+
 }
